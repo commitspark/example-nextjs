@@ -21,7 +21,7 @@ from your Git content repository.
 
 ## Editing content
 
-To edit content, sign in with GitHub at [Commitspark](https://commitspark.com/en_US/sign-in/), browse to your copy
+To edit content, sign in with GitHub at [Commitspark](https://commitspark.com/en-us/sign-in/), browse to your copy
 of the content repository and start editing.
 
 To see content from a branch other than `main` in Next.js, change the `PUBLISHED_BRANCH` variable in `.env`.
