@@ -1,9 +1,9 @@
 import {
   createAdapter,
   GitHubRepositoryOptions,
-} from '@contentlab/git-adapter-github'
-import { getApiService } from '@contentlab/contentlab'
-import { GitAdapter } from '@contentlab/git-adapter'
+} from '@commitspark/git-adapter-github'
+import { getApiService } from '@commitspark/graphql-api'
+import { GitAdapter } from '@commitspark/git-adapter'
 
 export async function getSlugs(): Promise<string[]> {
   const gitHubAdapter = await getGitAdapter()
@@ -99,7 +99,7 @@ export async function getPageDataBySlug(
     throw new Error('Failed to retrieve content')
   }
 
-  // Contentlab currently does not support complex queries; since we build statically, this inefficiency should be
+  // Commitspark currently does not support complex queries; since we build statically, this inefficiency should be
   // bearable at build-time
   for (const pageData of response.data.data) {
     if (pageData['slug'] === slug) {

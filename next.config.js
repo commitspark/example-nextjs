@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'contentlab-example-assets.s3.eu-central-1.amazonaws.com',
+        hostname: 'commitspark-example-assets.s3.eu-central-1.amazonaws.com',
         port: '',
         pathname: '**',
       },

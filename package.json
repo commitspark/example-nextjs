@@ -1,5 +1,5 @@
 {
-  "name": "contentlab-example-nextjs",
+  "name": "commitspark-example-nextjs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@contentlab/contentlab": "^0.6.1",
-    "@contentlab/git-adapter-github": "^0.3.2",
+    "@commitspark/git-adapter-github": "^0.4.0",
+    "@commitspark/graphql-api": "^0.7.0",
     "@types/node": "18.16.3",
     "@types/react": "18.2.5",
     "@types/react-dom": "18.2.3",
