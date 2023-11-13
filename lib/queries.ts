@@ -4,8 +4,9 @@ import {
 } from '@commitspark/git-adapter-github'
 import { getApiService } from '@commitspark/graphql-api'
 import { GitAdapter } from '@commitspark/git-adapter'
+import { HeaderMenuEntry } from '@/components/Navigation'
 
-export async function getSlugs(): Promise<string[]> {
+export async function getSlugs(): Promise<{ en: string; de: string }[]> {
   const gitHubAdapter = await getGitAdapter()
   const apiService = await getApiService()
 
@@ -17,7 +18,10 @@ export async function getSlugs(): Promise<string[]> {
       {
         query: `query {
           data: allPages {
-            slug
+            slug {
+              en
+              de
+            }
           }
         }`,
       },
@@ -40,7 +44,8 @@ export async function getSlugs(): Promise<string[]> {
   return response.data.data.map((pageData: any) => pageData.slug)
 }
 
-export async function getPageDataBySlug(
+export async function getPageDataByLangSlug(
+  lang: string,
   slug: string,
 ): Promise<Record<string, any>> {
   const gitHubAdapter = await getGitAdapter()
@@ -54,28 +59,39 @@ export async function getPageDataBySlug(
       {
         query: `query {
           data: allPages {
-            title
+            title {
+              en
+              de
+            }
             contentElements {
               __typename
               ... on Hero {
-                heading
+                heading {
+                  en
+                  de
+                }
                 image {
-                  absoluteUrl
+                  imageId
                   width
                   height
-                  altText
+                  altText {
+                    en
+                    de
+                  }
                 }
                 imagePosition
               }
-              ... on SectionTitle {
-                heading
-                body
-              }
-              ... on Body {
-                body
+              ... on Text {
+                body {
+                  en
+                  de
+                }
               }
             }
-            slug
+            slug {
+              en
+              de
+            }
             seo {
               metaTags {
                 name
@@ -102,7 +118,7 @@ export async function getPageDataBySlug(
   // Commitspark currently does not support complex queries; since we build statically, this inefficiency should be
   // bearable at build-time
   for (const pageData of response.data.data) {
-    if (pageData['slug'] === slug) {
+    if (pageData['slug'][lang] === slug) {
       return pageData
     }
   }
@@ -110,7 +126,9 @@ export async function getPageDataBySlug(
   throw new Error()
 }
 
-export async function getHeader(): Promise<Record<string, any>> {
+export async function getHeader(): Promise<{
+  headerMenuEntries: HeaderMenuEntry[]
+}> {
   const gitHubAdapter = await getGitAdapter()
   const apiService = await getApiService()
 
@@ -123,9 +141,15 @@ export async function getHeader(): Promise<Record<string, any>> {
         query: `query {
           data: allHeaders {
             headerMenuEntries {
-              label
-              linkTo {
-                slug
+              label {
+                en
+                de
+              }
+              linkTo { # The Commitspark GraphQL library transparently resolves references to @Entry entries
+                slug {
+                  en
+                  de
+                }
               }
             }
           }
@@ -139,7 +163,7 @@ export async function getHeader(): Promise<Record<string, any>> {
   }
 
   if (response.errors) {
-    throw new Error(response.errors.join('; '))
+    throw new Error(response.errors.map((error) => error.message).join('; '))
   }
   if (!response.data || !Array.isArray(response.data.data)) {
     throw new Error('Failed to retrieve header content')

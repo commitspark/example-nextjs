@@ -4,11 +4,20 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'commitspark-example-assets.s3.eu-central-1.amazonaws.com',
+        hostname: 'placehold.co',
         port: '',
         pathname: '**',
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/en',
+        permanent: true,
+      },
+    ]
   },
 }
 

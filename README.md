@@ -10,7 +10,7 @@ This example demonstrates how a Next.js Website can be filled with content serve
 2. Ensure you have created
    a [copy of this application repository](https://github.com/commitspark/example-nextjs/generate)
 3. Check out the application repository copy on your local machine
-4. Obtain a [GitHub Personal Access Token (classic)](https://github.com/settings/tokens) with `repo` scope
+4. Obtain a [GitHub Personal Access Token](https://github.com/settings/tokens) (see the [GitHub adapter documentation](https://github.com/commitspark/git-adapter-github#personal-access-token) for details)
 5. Copy `.env.dist` to `.env`
 6. Edit `.env` and enter the location of your copied content repository as well as your personal access token
 7. Install dependencies with `npm i`

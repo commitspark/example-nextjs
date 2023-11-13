@@ -1,20 +1,21 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 
-interface BodyProps {
-  body: string
+interface TextProps {
+  lang: string
+  body: { en: string; de: string }
 }
 
-const Body: React.FC<BodyProps> = (props: BodyProps) => {
+const Text: React.FC<TextProps> = (props: TextProps) => {
   return (
     <>
       <div className="mx-auto max-w-3xl px-6">
         <div className="text-base leading-7 text-gray-700 prose">
-          <ReactMarkdown>{props.body}</ReactMarkdown>
+          <ReactMarkdown>{props.body[props.lang]}</ReactMarkdown>
         </div>
       </div>
     </>
   )
 }
 
-export default Body
+export default Text
