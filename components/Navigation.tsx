@@ -27,7 +27,7 @@ const Navigation: React.FC<NavigationProps> = (props: NavigationProps) => {
         <div className={'space-x-6'}>
           {props.headerMenuEntries.map((headerMenuEntryData, index) => (
             <Link
-              href={`${props.lang}/${
+              href={`/${props.lang}/${
                 headerMenuEntryData.linkTo.slug[props.lang]
               }`}
               className="text-sm font-semibold leading-6 text-gray-900"
