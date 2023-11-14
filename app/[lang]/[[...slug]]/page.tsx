@@ -79,7 +79,7 @@ export async function generateMetadata({
   const props = await getPageDataByLangSlug(params.lang, slug)
 
   const metaTags: Metadata = {}
-  for (const metaTag of props.seo?.metaTags) {
+  for (const metaTag of props.seo?.metaTags ?? []) {
     metaTags[metaTag['name']] = metaTag['value']
   }
 
