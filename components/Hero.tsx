@@ -28,7 +28,7 @@ const Hero: React.FC<HeroProps> = (props: HeroProps) => {
         className={'rounded-xl'}
         src={`https://placehold.co/${props.image.width}x${
           props.image.height
-        }.png?text=${encodeURI(props.image.imageId)}`}
+        }.png?text=${encodeURIComponent(props.image.imageId)}`}
         alt={props.image.altText[props.lang]}
         width={props.image.width}
         height={props.image.height}
