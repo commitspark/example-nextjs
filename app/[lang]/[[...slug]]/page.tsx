@@ -59,13 +59,15 @@ export default async function Page({
   })
 
   return (
-    <div className="pb-16">
-      <Navigation
-        lang={params.lang}
-        headerMenuEntries={headerData.headerMenuEntries}
-      />
+    <>
+      <div className="pb-16">
+        <Navigation
+          lang={params.lang}
+          headerMenuEntries={headerData.headerMenuEntries}
+        />
+      </div>
       <div className="space-y-8">{contentElements}</div>
-    </div>
+    </>
   )
 }
 

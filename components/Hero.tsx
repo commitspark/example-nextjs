@@ -38,8 +38,8 @@ const Hero: React.FC<HeroProps> = (props: HeroProps) => {
   }
   return (
     <>
-      <div className="relative px-6 pt-14 lg:px-8">
-        <div className="mx-auto max-w-2xl py-24 space-y-16">
+      <div className="relative px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl py-12 space-y-16">
           {props.imagePosition === ImagePosition.aboveHeading && image}
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">

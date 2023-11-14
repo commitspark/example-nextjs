@@ -24,17 +24,19 @@ const Navigation: React.FC<NavigationProps> = (props: NavigationProps) => {
   return (
     <header>
       <nav className="mx-auto flex max-w-xl items-center justify-between p-6 lg:px-8">
-        {props.headerMenuEntries.map((headerMenuEntryData, index) => (
-          <Link
-            href={`${props.lang}/${
-              headerMenuEntryData.linkTo.slug[props.lang]
-            }`}
-            className="text-sm font-semibold leading-6 text-gray-900"
-            key={index}
-          >
-            {headerMenuEntryData.label[props.lang]}
-          </Link>
-        ))}
+        <div className={'space-x-6'}>
+          {props.headerMenuEntries.map((headerMenuEntryData, index) => (
+            <Link
+              href={`${props.lang}/${
+                headerMenuEntryData.linkTo.slug[props.lang]
+              }`}
+              className="text-sm font-semibold leading-6 text-gray-900"
+              key={index}
+            >
+              {headerMenuEntryData.label[props.lang]}
+            </Link>
+          ))}
+        </div>
         <div className={'flex-grow'} />
         <Link
           href={`/${otherLang}`}
