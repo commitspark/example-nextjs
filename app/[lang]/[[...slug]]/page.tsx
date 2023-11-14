@@ -18,12 +18,10 @@ export async function generateStaticParams(): Promise<PageParams[]> {
   const params: PageParams[] = []
   for (const slug of slugs) {
     for (const lang of ['en', 'de']) {
-      if (slug[lang]) {
-        params.push({
-          lang: lang,
-          slug: slug[lang].split('/'),
-        })
-      }
+      params.push({
+        lang: lang,
+        slug: slug[lang].split('/'),
+      })
     }
   }
   return params
