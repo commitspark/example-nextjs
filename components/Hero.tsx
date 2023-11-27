@@ -15,7 +15,7 @@ enum ImagePosition {
 
 interface HeroProps {
   lang: string
-  heading: string
+  heading: { en: string; de: string }
   image?: ImageReference
   imagePosition?: ImagePosition
 }
