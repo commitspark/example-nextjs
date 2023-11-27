@@ -82,6 +82,7 @@ export async function generateMetadata({
   for (const metaTag of props.seo?.metaTags ?? []) {
     metaTags[metaTag['name']] = metaTag['value']
   }
+  metaTags['title'] = props.title[params.lang]
 
   return metaTags
 }
