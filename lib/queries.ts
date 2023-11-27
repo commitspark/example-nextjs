@@ -109,7 +109,11 @@ export async function getPageDataByLangSlug(
   }
 
   if (response.errors) {
-    throw new Error(response.errors.join('; '))
+    throw new Error(
+      response.errors
+        .map((error: Record<string, any>) => JSON.stringify(error))
+        .join('; '),
+    )
   }
   if (!response.data || !Array.isArray(response.data.data)) {
     throw new Error('Failed to retrieve content')
