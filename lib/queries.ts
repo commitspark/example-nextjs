@@ -26,7 +26,9 @@ export async function getSlugs(): Promise<{ en: string; de: string }[]> {
         }`,
       },
     )
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+  }
 
   if (!response) {
     throw new Error(
