@@ -184,7 +184,7 @@ async function getGitAdapter(): Promise<GitAdapter> {
   await gitHubAdapter.setRepositoryOptions({
     repositoryOwner: process.env.GITHUB_REPOSITORY_OWNER,
     repositoryName: process.env.GITHUB_REPOSITORY_NAME,
-    personalAccessToken: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+    accessToken: process.env.GITHUB_ACCESS_TOKEN,
   } as GitHubRepositoryOptions)
 
   return gitHubAdapter
