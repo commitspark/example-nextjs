@@ -30,11 +30,12 @@ export async function generateStaticParams(): Promise<PageParams[]> {
 export default async function Page({
   params,
 }: {
-  params: PageParams
+  params: Promise<PageParams>
   searchParams: any
 }) {
-  const slug = params.slug ? params.slug.join('/') : ''
-  const pageData = await getPageDataByLangSlug(params.lang, slug)
+  const { slug, lang } = await params
+  const joinedSlug = slug ? slug.join('/') : ''
+  const pageData = await getPageDataByLangSlug(lang, joinedSlug)
   const headerData = await getHeader()
 
   let contentElements: ReactElement[] = []
@@ -45,12 +46,12 @@ export default async function Page({
     switch (contentElementData['__typename']) {
       case 'Hero':
         contentElements.push(
-          <Hero {...componentProps} lang={params.lang} key={index} />,
+          <Hero {...componentProps} lang={lang} key={index} />,
         )
         break
       case 'Text':
         contentElements.push(
-          <Text {...componentProps} lang={params.lang} key={index} />,
+          <Text {...componentProps} lang={lang} key={index} />,
         )
         break
     }
@@ -60,7 +61,7 @@ export default async function Page({
     <>
       <div className="pb-16">
         <Navigation
-          lang={params.lang}
+          lang={lang}
           headerMenuEntries={headerData.headerMenuEntries}
         />
       </div>
@@ -72,17 +73,18 @@ export default async function Page({
 export async function generateMetadata({
   params,
 }: {
-  params: PageParams
+  params: Promise<PageParams>
   searchParams: any
 }): Promise<Metadata> {
-  const slug = params.slug ? params.slug.join('/') : ''
-  const props = await getPageDataByLangSlug(params.lang, slug)
+  const { slug, lang } = await params
+  const joinedSlug = slug ? slug.join('/') : ''
+  const props = await getPageDataByLangSlug(lang, joinedSlug)
 
   const metaTags: Metadata = {}
   for (const metaTag of props.seo?.metaTags ?? []) {
     metaTags[metaTag['name']] = metaTag['value']
   }
-  metaTags['title'] = props.title[params.lang]
+  metaTags['title'] = props.title[lang]
 
   return metaTags
 }

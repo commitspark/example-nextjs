@@ -1,31 +1,22 @@
-import {
-  createAdapter,
-  GitHubRepositoryOptions,
-} from '@commitspark/git-adapter-github'
-import { getApiService } from '@commitspark/graphql-api'
-import { GitAdapter } from '@commitspark/git-adapter'
+import { createAdapter } from '@commitspark/git-adapter-github'
+import { Client, createClient } from '@commitspark/graphql-api'
 import { HeaderMenuEntry } from '@/components/Navigation'
 
 export async function getSlugs(): Promise<{ en: string; de: string }[]> {
-  const gitHubAdapter = await getGitAdapter()
-  const apiService = await getApiService()
-
   let response
   try {
-    response = await apiService.postGraphQL(
-      gitHubAdapter,
-      process.env.PUBLISHED_BRANCH ?? 'main',
-      {
-        query: `query {
-          data: allPages {
+    response = await (
+      await getCommitsparkClient()
+    ).postGraphQL(process.env.PUBLISHED_BRANCH ?? 'main', {
+      query: `query {
+          data: everyPage {
             slug {
               en
               de
             }
           }
         }`,
-      },
-    )
+    })
   } catch (error) {
     console.error(error)
   }
@@ -50,17 +41,13 @@ export async function getPageDataByLangSlug(
   lang: string,
   slug: string,
 ): Promise<Record<string, any>> {
-  const gitHubAdapter = await getGitAdapter()
-  const apiService = await getApiService()
-
   let response
   try {
-    response = await apiService.postGraphQL(
-      gitHubAdapter,
-      process.env.PUBLISHED_BRANCH ?? 'main',
-      {
-        query: `query {
-          data: allPages {
+    response = await (
+      await getCommitsparkClient()
+    ).postGraphQL(process.env.PUBLISHED_BRANCH ?? 'main', {
+      query: `query {
+          data: everyPage {
             title {
               en
               de
@@ -102,8 +89,7 @@ export async function getPageDataByLangSlug(
             }
           }
         }`,
-      },
-    )
+    })
   } catch (error) {}
 
   if (!response) {
@@ -135,17 +121,13 @@ export async function getPageDataByLangSlug(
 export async function getHeader(): Promise<{
   headerMenuEntries: HeaderMenuEntry[]
 }> {
-  const gitHubAdapter = await getGitAdapter()
-  const apiService = await getApiService()
-
   let response
   try {
-    response = await apiService.postGraphQL(
-      gitHubAdapter,
-      process.env.PUBLISHED_BRANCH ?? 'main',
-      {
-        query: `query {
-          data: allHeaders {
+    response = await (
+      await getCommitsparkClient()
+    ).postGraphQL(process.env.PUBLISHED_BRANCH ?? 'main', {
+      query: `query {
+          data: everyHeader {
             headerMenuEntries {
               label {
                 en
@@ -160,8 +142,7 @@ export async function getHeader(): Promise<{
             }
           }
         }`,
-      },
-    )
+    })
   } catch (error) {}
 
   if (!response) {
@@ -179,13 +160,17 @@ export async function getHeader(): Promise<{
   return response.data.data[0]
 }
 
-async function getGitAdapter(): Promise<GitAdapter> {
-  const gitHubAdapter = createAdapter()
-  await gitHubAdapter.setRepositoryOptions({
-    repositoryOwner: process.env.GITHUB_REPOSITORY_OWNER,
-    repositoryName: process.env.GITHUB_REPOSITORY_NAME,
-    accessToken: process.env.GITHUB_ACCESS_TOKEN,
-  } as GitHubRepositoryOptions)
+let clientInstance: Client | null = null
 
-  return gitHubAdapter
+async function getCommitsparkClient(): Promise<Client> {
+  if (!clientInstance) {
+    const gitHubAdapter = createAdapter({
+      repositoryOwner: process.env.GITHUB_REPOSITORY_OWNER,
+      repositoryName: process.env.GITHUB_REPOSITORY_NAME,
+      accessToken: process.env.GITHUB_ACCESS_TOKEN,
+    })
+    clientInstance = await createClient(gitHubAdapter)
+  }
+
+  return clientInstance
 }
