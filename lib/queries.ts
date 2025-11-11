@@ -1,9 +1,9 @@
 import { createAdapter } from '@commitspark/git-adapter-github'
-import { Client, createClient } from '@commitspark/graphql-api'
+import { Client, createClient, GraphQLResponse } from '@commitspark/graphql-api'
 import { HeaderMenuEntry } from '@/components/Navigation'
 
 export async function getSlugs(): Promise<{ en: string; de: string }[]> {
-  let response
+  let response: GraphQLResponse<Record<string, unknown>>
   try {
     response = await (
       await getCommitsparkClient()
@@ -19,6 +19,7 @@ export async function getSlugs(): Promise<{ en: string; de: string }[]> {
     })
   } catch (error) {
     console.error(error)
+    throw error
   }
 
   if (!response) {
@@ -41,7 +42,7 @@ export async function getPageDataByLangSlug(
   lang: string,
   slug: string,
 ): Promise<Record<string, any>> {
-  let response
+  let response: GraphQLResponse<Record<string, unknown>>
   try {
     response = await (
       await getCommitsparkClient()
@@ -90,7 +91,10 @@ export async function getPageDataByLangSlug(
           }
         }`,
     })
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 
   if (!response) {
     throw new Error(`Failed to retrieve data for page "${slug}"`)
@@ -121,7 +125,7 @@ export async function getPageDataByLangSlug(
 export async function getHeader(): Promise<{
   headerMenuEntries: HeaderMenuEntry[]
 }> {
-  let response
+  let response: GraphQLResponse<Record<string, unknown>>
   try {
     response = await (
       await getCommitsparkClient()
@@ -143,7 +147,10 @@ export async function getHeader(): Promise<{
           }
         }`,
     })
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 
   if (!response) {
     throw new Error(`Failed to retrieve data for header`)
